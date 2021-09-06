@@ -18,4 +18,6 @@ public interface BookService {
     List<Book> getAllBooksByAuthor(String author);
     List<Book> getBooksByAuthorRegEx(String author);
     List<Book> getBooksByAuthorAndCreatedDate(String author, Date start, Date end);
+    List<Book> findBooksByAuthorAndCreatedDateBetween(String author, Date start, Date end);
+    List<Book> findBooksByAuthorAndCreatedDateBetweenUsingMongoTemplate(String author, Date start, Date end);
 }

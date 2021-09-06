@@ -59,5 +59,8 @@ public interface BookRepository extends MongoRepository<Book, String> {
     @Query("{ author : ?0, createdDate : {$gte: ?1, $lt: ?2} }") //SQL EQ: SELECT * FROM BOOK WHERE author = ? AND (createdDate >= ? AND createdDate < ?)
     List<Book> getBooksByAuthorAndCreatedDateRange(String author, Date start, Date end);
 
+    //Using the Spring mongo data DSL matching the function name convention
+    List<Book> findBooksByAuthorAndCreatedDateBetween(String author, Date start, Date end);
+
 
 }

@@ -2,6 +2,7 @@ package com.spring.mongo.demo.service.impl;
 
 
 import com.spring.mongo.demo.model.Book;
+import com.spring.mongo.demo.repository.BookCustomRepository;
 import com.spring.mongo.demo.repository.BookRepository;
 import com.spring.mongo.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookCustomRepository bookCustomRepository;
 
     @Override
     public Optional<Book> getBookById(Integer id) {
@@ -70,5 +73,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getBooksByAuthorAndCreatedDate(String author, Date start, Date end) {
         return bookRepository.getBooksByAuthorAndCreatedDateRange(author, start, end);
+    }
+
+    @Override
+    public List<Book> findBooksByAuthorAndCreatedDateBetween(String author, Date start, Date end) {
+        return bookRepository.findBooksByAuthorAndCreatedDateBetween(author, start, end);
+    }
+
+    @Override
+    public List<Book> findBooksByAuthorAndCreatedDateBetweenUsingMongoTemplate(String author, Date start, Date end) {
+        return bookCustomRepository.findBooksByAuthorAndCreatedDateBetween(author, start, end);
     }
 }

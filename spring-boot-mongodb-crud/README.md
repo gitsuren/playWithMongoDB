@@ -257,7 +257,19 @@ Or
     }
     ``` 
 	
-	
+- ### BOOKS
+
+    > **GET Mapping** http://localhost:8080/book-query/book/504  - Get Book by book Id
+  
+    > **GET Mapping** http://localhost:8080/getBooksByAuthorAndCreatedDate/Surendra B/90"  - Get Book by author and date range for last eg 90 days
+  
+    > **GET Mapping** http://localhost:8080/findBooksByAuthorAndCreatedDateBetween/Surendra B/90"  - Get Book by author and date range for last eg 90 days (matching Spring Monogodb data DSL)
+  
+    > **GET Mapping** http://localhost:8080/book-query/getBooksByAuthorAndCreatedDate/{author}/{startStr}/{endStr}  - Get Book by author and date range between start and end date
+  > author: Surendra B
+  > start date: 2021-03-27 16:41:51.863092+01
+  > end Date: 2021-09-04 16:41:51.863092+01
+
 DOCKER:
 ```
 $$ docker pull mongo

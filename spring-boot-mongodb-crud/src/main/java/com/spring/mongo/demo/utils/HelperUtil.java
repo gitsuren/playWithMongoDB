@@ -1,7 +1,10 @@
 package com.spring.mongo.demo.utils;
 
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -78,10 +81,11 @@ public class HelperUtil {
                     );
 
 
+    //with date format
     private static Date getRandomDateInLastSixMonths() {
         Instant sixMonthsAgo = Instant.now().minus(Duration.ofDays(180));
 //		Instant tenDaysAgo = Instant.now().minus(Duration.ofDays(10));
-                Instant random = between(sixMonthsAgo, Instant.now());
+        Instant random = between(sixMonthsAgo, Instant.now());
         return Date.from(random);
     }
 
@@ -95,6 +99,14 @@ public class HelperUtil {
         return Instant.ofEpochSecond(random);
     }
 
+    private Date getDate(String dateStr){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSX");
+        OffsetDateTime time = OffsetDateTime.parse(dateStr, formatter);
+//        OffsetDateTime time = OffsetDateTime.parse("2014-02-27 16:41:51.863092+01", formatter);
+        //in database: 2021-09-04T23:30:00.000+00:00
+        System.out.println(Timestamp.from(time.toInstant()));
+        return Date.from(time.toInstant());
+    }
 
 //	public static List<Student> getStaticStudent() {
 //

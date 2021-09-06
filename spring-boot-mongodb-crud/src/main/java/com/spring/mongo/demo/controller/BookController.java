@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +41,7 @@ public class BookController {
     }
 
     @GetMapping("/author-cost/{author}/{cost}")
-    public List<Book> getBooksByAuthorAndCost(@PathVariable String author,@PathVariable Double cost) {
+    public List<Book> getBooksByAuthorAndCost(@PathVariable String author, @PathVariable Double cost) {
         return bookService.getBooksByAuthorAndCost(author, cost);
     }
 
@@ -74,20 +77,47 @@ public class BookController {
 
     @GetMapping("/getBooksByAuthorAndCreatedDate/{author}/{days}")
 //    public List<Book> getBooksByAuthorAndCreatedDate(@PathVariable String author, @PathVariable String start, @PathVariable String end ) {
-    public List<Book> getBooksByAuthorAndCreatedDate(@PathVariable String author, @PathVariable Integer days ) {
+    public List<Book> getBooksByAuthorAndCreatedDate(@PathVariable String author, @PathVariable Integer days) {
         Date startDate = Date.from(Instant.now().minus(Duration.ofDays(days)));
         Date endDate = Date.from(Instant.now());
 
-       try {
-           return bookService.getBooksByAuthorAndCreatedDate(author, startDate, endDate);
-       }
-       catch (Exception e){
-           System.out.println(e);
-           System.out.printf("SMTHING WENT WRONG!!!");
-           return null;
-       }
+        try {
+            return bookService.getBooksByAuthorAndCreatedDate(author, startDate, endDate);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.printf("SMTHING WENT WRONG!!!");
+            return null;
+        }
 
     }
 
+    @GetMapping("/findBooksByAuthorAndCreatedDateBetween/{author}/{days}")
+    public List<Book> findBooksByAuthorAndCreatedDateBetween(@PathVariable String author, @PathVariable Integer days) {
+        Date startDate = Date.from(Instant.now().minus(Duration.ofDays(days)));
+        Date endDate = Date.from(Instant.now());
+        return bookService.findBooksByAuthorAndCreatedDateBetween(author, startDate, endDate);
+    }
 
-}
+    @GetMapping("/findBooksByAuthorAndCreatedDateBetweenUsingMongoTemplate/{author}/{days}")
+    public List<Book> findBooksByAuthorAndCreatedDateBetweenUsingMongoTemplate(@PathVariable String author, @PathVariable Integer days) {
+        Date startDate = Date.from(Instant.now().minus(Duration.ofDays(days)));
+        Date endDate = Date.from(Instant.now());
+        return bookService.findBooksByAuthorAndCreatedDateBetweenUsingMongoTemplate(author, startDate, endDate);
+    }
+
+
+    @GetMapping("/getBooksByAuthorAndCreatedDate/{author}/{startStr}/{endStr}")
+    public List<Book> getBooksByAuthorAndCreatedDate(@PathVariable String author, @PathVariable String startStr, @PathVariable String endStr) {
+        return bookService.getBooksByAuthorAndCreatedDate(author, getDate(startStr),getDate(endStr));
+    }
+
+
+    private Date getDate(String dateStr){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSX");
+        OffsetDateTime time = OffsetDateTime.parse(dateStr, formatter);
+//        OffsetDateTime time = OffsetDateTime.parse("2014-02-27 16:41:51.863092+01", formatter);
+        //in database: 2021-09-04T23:30:00.000+00:00
+        System.out.println(Timestamp.from(time.toInstant()));
+        return Date.from(time.toInstant());
+    }
+ }
