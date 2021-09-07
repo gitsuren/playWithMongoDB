@@ -261,9 +261,9 @@ Or
 
     > **GET Mapping** http://localhost:8080/book-query/book/504  - Get Book by book Id
   
-    > **GET Mapping** http://localhost:8080/getBooksByAuthorAndCreatedDate/Surendra B/90"  - Get Book by author and date range for last eg 90 days
+    > **GET Mapping** http://localhost:8080/book-query/getBooksByAuthorAndCreatedDate/Surendra B/90"  - Get Book by author and date range for last eg 90 days
   
-    > **GET Mapping** http://localhost:8080/findBooksByAuthorAndCreatedDateBetween/Surendra B/90"  - Get Book by author and date range for last eg 90 days (matching Spring Monogodb data DSL)
+    > **GET Mapping** http://localhost:8080/book-query/findBooksByAuthorAndCreatedDateBetween/Surendra B/90"  - Get Book by author and date range for last eg 90 days (matching Spring Monogodb data DSL)
   
     > **GET Mapping** http://localhost:8080/book-query/getBooksByAuthorAndCreatedDate/{author}/{startStr}/{endStr}  - Get Book by author and date range between start and end date
   > author: Surendra B
